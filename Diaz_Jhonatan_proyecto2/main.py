@@ -13,40 +13,40 @@ from io_handler import (
 
 def registrar_conexion(grafo: Grafo) -> None:
     # Solicita y guarda una nueva conexión de transporte.
-    print("\n--- REGISTRAR CONEXIÓN ---")
+    print("\nRegistra una nueva conexión")
 
-    origen = solicitar_nodo("Nodo origen: ")
-    destino = solicitar_nodo("Nodo destino: ")
+    origen = solicitar_nodo("Nodo de partida: ")
+    destino = solicitar_nodo("Nodo de llegada: ")
     peso = solicitar_peso()
 
     try:
         if origen == destino:
             raise ValueError(
-                "El origen y destino deben ser distintos."
+                "El origen y destino no deben ser iguales."
             )
 
         guardar_conexion(origen, destino, peso)
         grafo.agregar_conexion(origen, destino, peso)
 
-        print("Conexión guardada correctamente.")
+        print("La coneccion se registro con exito.")
 
     except ValueError as error:
         print(f"Validación: {error}")
 
     except OSError as error:
-        print(f"No fue posible guardar la conexión: {error}")
+        print(f"No es posible encontrar tu coneccion: {error}")
 
 
 def consultar_ruta(grafo: Grafo) -> None:
     # Calcula y muestra la ruta más corta entre dos nodos.
-    print("\n--- CONSULTAR RUTA ---")
+    print("\nConsulta tu ruta")
 
     if not grafo.nodos:
-        print("No hay conexiones registradas.")
+        print("No hay conexiones entre los nodos que dijiste D: .")
         return
 
-    inicio = solicitar_nodo("Nodo de inicio: ")
-    destino = solicitar_nodo("Nodo de destino: ")
+    inicio = solicitar_nodo("Nodo de partida: ")
+    destino = solicitar_nodo("Nodo de llegada: ")
 
     try:
         distancia, camino = grafo.dijkstra(inicio, destino)
@@ -64,7 +64,7 @@ def consultar_ruta(grafo: Grafo) -> None:
 
 def mostrar_conexiones(grafo: Grafo) -> None:
     # Muestra las conexiones registradas en el grafo.
-    print("\n--- CONEXIONES REGISTRADAS ---")
+    print("\nConexiones registradas:")
 
     if not grafo.nodos:
         print("No hay conexiones registradas.")
@@ -86,10 +86,10 @@ def menu() -> None:
     grafo = cargar_grafo()
 
     while True:
-        print("\n=== RED DE TRANSPORTE ===")
-        print("1. Registrar nueva conexión")
+        print("\nRed de nodos")
+        print("1. Registra un nuevo nodo")
         print("2. Consultar ruta más corta")
-        print("3. Mostrar conexiones")
+        print("3. Mostrar conexiones entre nodos1")
         print("4. Salir")
 
         opcion = input("\nSelecciona una opción: ").strip()
