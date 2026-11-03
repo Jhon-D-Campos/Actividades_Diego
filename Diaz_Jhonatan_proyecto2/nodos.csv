@@ -1,0 +1,8 @@
+Origen,Destino,Peso
+A,B,4.0
+A,C,2.0
+B,D,3.0
+C,D,1.0
+L,A,7.0
+Z,L,9.0
+P,A,hola
