@@ -1,0 +1,16 @@
+# Archivos temporales de Python
+__pycache__/
+*.pyc
+
+# Entornos virtuales
+.venv/
+venv/
+
+# Archivos temporales y bloqueos
+*.lock
+*.bak
+
+# Variables de entorno
+.env
+.env.*
+!.env.example
