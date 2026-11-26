@@ -1,12 +1,12 @@
 
 """
-Módulo de gestión de grafos no dirigidos y ponderados.
 
-Proyecto: Dine-de-one-nodo.
-Materia: Programación III.
+Título: Proyecto FINAL. Persistencia Relacional con SQLite
+Nombre: Jhonatan Enrique Diaz Campos
+Fecha: 26 de Noviembre de 2026
+Descripción: Creacion de nuestra pagina Streamlit de nodos
+pero esta vez ya no es csv sinó DB
 
-Contiene las clases Nodo y Grafo, así como la implementación
-del algoritmo de Dijkstra mediante NetworkX.
 """
 
 import math
@@ -15,28 +15,28 @@ import networkx as nx
 
 
 class Nodo:
-    """Representa un nodo y sus conexiones con otros nodos."""
+    # Clase nodo, aqui es donde el nodo se crea
 
     def __init__(self, nombre: str) -> None:
-        """Inicializa un nodo con su nombre y vecinos."""
+        # Inicializa el nodo con su nombre y vecinos
         self.nombre = nombre
         self.vecinos: dict[str, float] = {}
 
     def agregar_vecino(self, vecino: str, peso: float) -> None:
-        """Agrega o actualiza la conexión con un vecino."""
+        # Actualiza el nodo con su vecino
         self.vecinos[vecino] = peso
 
 
 class Grafo:
-    """Representa una red de nodos con conexiones ponderadas."""
+    # Aqui se crea el grafo y las conecciones
 
     def __init__(self) -> None:
-        """Inicializa un grafo vacío y no dirigido."""
+        # Aqui se define el grafo vacio
         self.nodos: dict[str, Nodo] = {}
         self.red = nx.Graph()
 
     def agregar_nodo(self, nombre: str) -> None:
-        """Agrega un nodo al grafo si todavía no existe."""
+        # Agrega un nodo al grafo si aun no existe
         nombre = nombre.strip().upper()
 
         if not nombre:
@@ -48,7 +48,7 @@ class Grafo:
     def agregar_conexion(
         self, origen: str, destino: str, peso: float
     ) -> None:
-        """Agrega una conexión bidireccional con peso positivo."""
+        # Agrega una direccion con peso positivo
         origen = origen.strip().upper()
         destino = destino.strip().upper()
 
@@ -81,7 +81,7 @@ class Grafo:
     def dijkstra(
         self, inicio: str, destino: str
     ) -> tuple[float, list[str]]:
-        """Calcula la ruta más corta y devuelve su costo total."""
+        # Calcula la ruta más corta y devuelve su costo total.
         inicio = inicio.strip().upper()
         destino = destino.strip().upper()
 

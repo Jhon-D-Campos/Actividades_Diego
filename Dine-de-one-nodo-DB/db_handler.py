@@ -1,12 +1,11 @@
-
 """
-Módulo de persistencia de datos mediante SQLite.
 
-Proyecto: Dine-de-one-nodo.
-Materia: Programación III.
+Título: Proyecto FINAL. Persistencia Relacional con SQLite
+Nombre: Jhonatan Enrique Diaz Campos
+Fecha: 26 de Noviembre de 2026
+Descripción: Creacion de nuestra pagina Streamlit de nodos
+pero esta vez ya no es csv sinó DB
 
-Gestiona la base de datos, las consultas JOIN, la migración
-de registros y la preparación de tablas mediante pandas.
 """
 
 import math
@@ -39,7 +38,7 @@ CONSULTA_CONEXIONES = """
 
 
 def validar_nodo(nombre: str) -> str:
-    """Limpia y valida el nombre de un nodo."""
+    # Valida que el nombre del nodo sea un string
     if not isinstance(nombre, str):
         raise ValueError('El nombre del nodo debe ser texto.')
 
@@ -52,7 +51,7 @@ def validar_nodo(nombre: str) -> str:
 
 
 def validar_peso(entrada: float) -> float:
-    """Comprueba que el peso sea numérico, finito y positivo."""
+    # Valisa que el peso sea positivo, real y que sea un numero
     try:
         peso = float(entrada)
 
@@ -71,7 +70,7 @@ def validar_peso(entrada: float) -> float:
 def conectar(
     ruta: str | Path | None = None
 ) -> sqlite3.Connection:
-    """Establece una conexión con SQLite."""
+    # Establece la conexion con Sqlite
     ruta = ARCHIVO_DB if ruta is None else Path(ruta)
 
     conexion = sqlite3.connect(str(ruta), timeout=30)
@@ -81,7 +80,7 @@ def conectar(
 
 
 def crear_tablas(conexion: sqlite3.Connection) -> None:
-    """Crea las tablas normalizadas de la base de datos."""
+    # Crea las tablas
     conexion.execute("""
         CREATE TABLE IF NOT EXISTS nodos (
             id_nodo INTEGER PRIMARY KEY,
@@ -111,7 +110,7 @@ def crear_tablas(conexion: sqlite3.Connection) -> None:
 def obtener_id(
     conexion: sqlite3.Connection, nombre: str
 ) -> int:
-    """Registra un nodo si no existe y devuelve su identificador."""
+    # Registra un nodo si no existe y devuelve su identificador
     conexion.execute(
         'INSERT OR IGNORE INTO nodos(nombre) VALUES (?)',
         (nombre,)
@@ -131,7 +130,7 @@ def insertar_conexion(
     destino: str,
     peso: float
 ) -> None:
-    """Inserta o actualiza una conexión bidireccional."""
+    # Inserta o actualiza una conexión
     origen = validar_nodo(origen)
     destino = validar_nodo(destino)
     peso = validar_peso(peso)
@@ -155,7 +154,7 @@ def insertar_conexion(
 
 
 def inicializar_db(ruta: str | Path | None = None) -> None:
-    """Inicializa SQLite y migra la estructura anterior si existe."""
+    # Inicializa Sqlite
     with closing(conectar(ruta)) as conexion, conexion:
         conexion.execute('BEGIN IMMEDIATE')
 
@@ -193,7 +192,7 @@ def inicializar_db(ruta: str | Path | None = None) -> None:
 
 
 def cargar_grafo(ruta: str | Path | None = None) -> Grafo:
-    """Reconstruye el grafo utilizando los registros de SQLite."""
+    # Reconstruye el grafo utilizando los registros de SQLite
     inicializar_db(ruta)
     grafo = Grafo()
 
@@ -220,7 +219,7 @@ def cargar_grafo(ruta: str | Path | None = None) -> Grafo:
 def guardar_nodo(
     nombre: str, ruta: str | Path | None = None
 ) -> None:
-    """Guarda un nodo validado en la base de datos."""
+    # Guarda un nodo validado en la base de datos.
     nombre = validar_nodo(nombre)
     inicializar_db(ruta)
 
@@ -234,7 +233,7 @@ def guardar_conexion(
     peso: float,
     ruta: str | Path | None = None
 ) -> None:
-    """Guarda una conexión entre dos nodos."""
+    # Guarda una conexión entre dos nodos
     inicializar_db(ruta)
 
     with closing(conectar(ruta)) as conexion, conexion:
@@ -246,7 +245,7 @@ def guardar_conexion(
 def obtener_tabla_nodos(
     ruta: str | Path | None = None
 ) -> pd.DataFrame:
-    """Devuelve los nodos como una tabla de pandas."""
+    # Devuelve los nodos como una tabla de pandas.
     inicializar_db(ruta)
 
     with closing(conectar(ruta)) as conexion:
@@ -259,7 +258,7 @@ def obtener_tabla_nodos(
 def obtener_tabla_conexiones(
     ruta: str | Path | None = None
 ) -> pd.DataFrame:
-    """Devuelve las conexiones mediante una consulta JOIN."""
+    # Devuelve las conexiones mediante una consulta JOIN.
     inicializar_db(ruta)
 
     with closing(conectar(ruta)) as conexion:

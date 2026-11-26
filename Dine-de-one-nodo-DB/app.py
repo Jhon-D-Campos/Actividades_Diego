@@ -1,12 +1,12 @@
 
 """
-Interfaz gráfica del sistema de gestión de grafos.
 
-Proyecto: Dine-de-one-nodo.
-Materia: Programación III.
+Título: Proyecto FINAL. Persistencia Relacional con SQLite
+Nombre: Jhonatan Enrique Diaz Campos
+Fecha: 26 de Noviembre de 2026
+Descripción: Creacion de nuestra pagina Streamlit de nodos
+pero esta vez ya no es csv sinó DB
 
-Permite registrar conexiones, visualizar grafos y calcular
-rutas óptimas mediante el algoritmo de Dijkstra.
 """
 
 import math
@@ -39,7 +39,7 @@ st.set_page_config(
 
 @st.cache_resource
 def bloqueo() -> threading.RLock:
-    """Evita conflictos durante la visualización del grafo."""
+    # Evita conflictos al visualizar el grafo
     return threading.RLock()
 
 
@@ -48,7 +48,7 @@ def mostrar_imagen(
     comentario: str,
     ancho: int | str = 'stretch'
 ) -> None:
-    """Muestra una imagen local si el archivo existe."""
+    # Muestra la imagen local si el archivo existe
     ruta = DIRECTORIO / archivo
 
     if ruta.exists():
@@ -60,7 +60,7 @@ def mostrar_imagen(
 
 
 def actualizar_datos() -> bool:
-    """Sincroniza los registros de SQLite con la sesión."""
+    # Sincroniza los datos con sqlite
     try:
         grafo = cargar_grafo()
         tabla_nodos = obtener_tabla_nodos()
@@ -88,7 +88,7 @@ def actualizar_datos() -> bool:
 
 
 def guardar(origen: str, destino: str, peso: float) -> None:
-    """Valida y guarda una conexión en la base de datos."""
+    # Valida y guarda la conexion en la base de datos
     origen = origen.strip()
     destino = destino.strip()
 
@@ -135,7 +135,7 @@ def consultar_ruta(
     origen: str,
     destino: str
 ) -> None:
-    """Calcula y almacena la ruta más corta de la sesión."""
+    # Calcula y almacena la ruta mas corta
     st.session_state['camino'] = []
     st.session_state['distancia'] = None
 
@@ -160,7 +160,7 @@ def visualizar_grafo(
     grafo: Grafo,
     camino: list[str]
 ) -> None:
-    """Dibuja el grafo y resalta la ruta óptima."""
+    # Dibuja el grafo y señala la ruta mas corta
     with bloqueo():
         fig, ax = plt.subplots(figsize=(10, 6))
 
